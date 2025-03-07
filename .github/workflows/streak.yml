@@ -1,0 +1,30 @@
+name: GitHub Streak Booster
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Mohil0003"
+          git config --global user.email "mohilparmar1526@gmail.com"
+
+      - name: Make multiple commits
+        run: |
+          for i in {1..15}; do
+            echo "Commit #$i on $(date)" >> streak_log.txt
+            git add streak_log.txt
+            git commit -m "Automated commit #$i for GitHub streak"
+            sleep 5  # Small delay to avoid GitHub anti-spam detection
+          done
+
+      - name: Push changes
+        run: git push
